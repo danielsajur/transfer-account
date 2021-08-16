@@ -1,6 +1,7 @@
 
 ## Métodos HTTP e exemplos
 
+### Cadastramento do agendamento da transferência
 **POST ->** http://localhost:8080/transfers
 
 ### Request
@@ -12,10 +13,13 @@
 	"value" : 100001
 }
 ```
+
+### Consultar todos os agendamentos
 **GET ALL ->** http://localhost:8080/transfers
 
-**GET ->** http://localhost:8080/transfers/{originAccount}
 
+### Consultar todos os agendamentos de um usuário através da sua conta origem
+**GET ->** http://localhost:8080/transfers/{originAccount}
 
 ### Response
 ```
