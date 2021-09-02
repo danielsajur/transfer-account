@@ -3,7 +3,7 @@ package br.com.cvc.banktransfer.infra.exception;
 import lombok.Getter;
 
 @Getter
-public class ZeroFareException extends Exception {
+public class ZeroFareException extends RuntimeException {
 
 	/**
 	 * 

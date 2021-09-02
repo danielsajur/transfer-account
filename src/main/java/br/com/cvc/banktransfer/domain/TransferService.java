@@ -8,7 +8,7 @@ import br.com.cvc.banktransfer.domain.entity.Transfer;
 
 public interface TransferService {
 	
-	Transfer add(String originAccount, String destinationAccount, LocalDate transferDate, BigDecimal value) throws Exception;
+	Transfer add(String originAccount, String destinationAccount, LocalDate transferDate, BigDecimal value);
 	
 	List<Transfer> getBy(String originAccount);
 	

@@ -15,11 +15,13 @@ public class TransferBookingRepositoryImpl implements TransferBookingRepository 
 
 	private final Map<String, List<Transfer>> map = new HashMap<>();
 		
-	public void add(Transfer transfer) {
+	public Transfer add(Transfer transfer) {
 		if(!map.containsKey(transfer.getOriginAccount())) {
 			map.put(transfer.getOriginAccount(), new ArrayList<>());
 		}
 		map.get(transfer.getOriginAccount()).add(transfer);
+
+		return transfer;
 	}
 	
 	public List<Transfer> getBy(String originAccount) {

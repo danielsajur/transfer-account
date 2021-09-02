@@ -1,54 +1,55 @@
 package br.com.cvc.banktransfer.domain.entity;
 
+import br.com.cvc.banktransfer.domain.TransferType;
+import br.com.cvc.banktransfer.domain.strategy.TaxCalculator;
+import br.com.cvc.banktransfer.infra.exception.ZeroFareException;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import br.com.cvc.banktransfer.domain.TransferType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+
 
 @Data
 @EqualsAndHashCode
 public class Transfer implements Serializable{
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6413131886630105448L;
 
 	private String id = UUID.randomUUID().toString();
-	
-	private String originAccount;
-	
-	private String destinationAccount;
-	
-	private LocalDate transferDate;
-	
-	private BigDecimal value;
-	
-	private BigDecimal fare;
 
-	private LocalDate booking;
-	
-	private TransferType type;
+	private final String originAccount;
 
-	public Transfer() {
-	}
-	
-	public Transfer(String originAccount, String destinationAccount, LocalDate transferDate, BigDecimal value,
-			BigDecimal fare, LocalDate booking, TransferType type) {
+	private final String destinationAccount;
+
+	private final LocalDate transferDate;
+
+	private final BigDecimal value;
+
+	private final BigDecimal fare;
+
+	private final LocalDate booking;
+
+	private final TransferType type;
+
+	public Transfer(String originAccount, String destinationAccount, LocalDate transferDate, TaxCalculator calculator) {
 		super();
 		this.originAccount = originAccount;
 		this.destinationAccount = destinationAccount;
 		this.transferDate = transferDate;
-		this.value = value;
-		this.fare = fare.setScale(0,RoundingMode.HALF_EVEN);
-		this.booking = booking;
-		this.type = type;
+		this.value = calculator.getValue();
+		this.fare = ofNullable(calculator.calculate()).orElseThrow(ZeroFareException::new);
+		this.booking = LocalDate.now();
+		this.type = calculator.getTransferType();
 	}
-		
-	
+
+
 }
